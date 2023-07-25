@@ -31,10 +31,7 @@ public class GameManager : MonoBehaviour
       private  set { score = value; }
     }
 
-    void Awake()
-    {
-  
-    }
+
     void Start()
     {
         SetGameValue(ref lives, MaxPlayerLives);
