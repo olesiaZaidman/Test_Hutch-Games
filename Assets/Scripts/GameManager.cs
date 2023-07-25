@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    static public int playerLayer = 7; //GameManager.playerLayer
+    static public int invadersLayer = 8; //GameManager.invadersLayer
+    static public int brickLayer = 9;
+    static public int playerBulletLayer = 10;
+    static public int invadersBulletLayer = 11;
+
+
     static int damageAmount = 1;
     public static int DamageAmount
     {
@@ -26,11 +34,6 @@ public class GameManager : MonoBehaviour
     static bool gameOver = false;
     static bool winGame = false;
 
-    static public int playerLayer = 1; //GameManager.playerLayer
-    static public int invadersLayer = 2; //GameManager.invadersLayer
-    static public int brickLayer = 3;
-    static public int playerBulletLayer = 4;
-    static public int invadersBulletLayer = 5;
 
     public static bool GameOver
     {

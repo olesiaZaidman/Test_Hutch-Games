@@ -19,14 +19,15 @@ public class PlayerController : GameObjectManager
 
     BulletsController bulletsController;
 
-    float movementInput = Input.GetAxis("Horizontal");
+    float movementInput;
     float movementSpeed = 10f;
 
     void Start()
     {
         CreatePlayer();
         CreatePlayerLives();
-        bulletsController = FindObjectOfType<BulletsController>();  
+        bulletsController = FindObjectOfType<BulletsController>();
+
     }
 
     public Vector3 GetPlayerPosition()
@@ -98,8 +99,9 @@ public class PlayerController : GameObjectManager
 
     //}
 
-    private void UpdatePlayerMovement()
+     void UpdatePlayerMovement()
     {
+        movementInput = Input.GetAxis("Horizontal");
         float newPlayerX = CalculateNewPlayerX(movementInput, movementSpeed);
 
         float minXValue = -7f;
@@ -111,12 +113,12 @@ public class PlayerController : GameObjectManager
         MovePlayerToPosition(newPosition);
     }
 
-    private float CalculateNewPlayerX(float movementInput, float movementSpeed)
+     float CalculateNewPlayerX(float movementInput, float movementSpeed)
     {
         return player.transform.position.x + (movementInput * movementSpeed * Time.deltaTime);
     }
 
-    private void MovePlayerToPosition(Vector3 newPosition)
+     void MovePlayerToPosition(Vector3 newPosition)
     {
         player.transform.position = newPosition;
     }

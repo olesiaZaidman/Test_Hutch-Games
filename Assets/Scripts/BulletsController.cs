@@ -19,6 +19,8 @@ public class BulletsController : GameObjectManager
     float enemyBulletSpeed = -5f;
 
     float bulletSpeed;
+
+    public GameObject[] Bullets => bullets;
     void CreateBullets()
     {
         for (int i = 0; i < bullets.Length; i++)
