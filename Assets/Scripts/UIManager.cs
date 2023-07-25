@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-
+        UIManager.Instance.UpdateUITextScore();
     }
 
     public void DisplayScore(int _score)
@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
         else Debug.Log("yourScoreText is null");
     }
 
-    public void UpdateUITextScoreOnGameOver()
+    public void UpdateUITextScore()
     {
         // uiScore.text = string.Format("SCORE: {0:0000}         {1}", GameManager.Score, GameManager.GameOver ? "GAME OVER!\n   PRESS SPACE TO RESTART" : "");
 

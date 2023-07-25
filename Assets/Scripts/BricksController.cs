@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class BricksController : GameObjectManager
 {
+
     Vector3 bricksStartingPosition = new Vector3(-3.6f, -3, 0);
     Vector3 bricksLocalScale = new Vector3(0.2f, 0.2f, 0.5f);
     Color bricksColor = Color.green;
     static int maxbaseBricksAmount = 4;
     GameObject[] bricks = new GameObject[maxbaseBricksAmount];
-    int brickLayer = 3;
+
 
 
 
@@ -31,7 +32,7 @@ public class BricksController : GameObjectManager
                     // baseBrick.transform.position = new Vector3((b * 2.2f) + (i * 0.2f) - 3.6f, (j * 0.2f) - 3, 0);
 
                     SetTransformProperties(baseBrick, position, bricksLocalScale);
-                    AssignLayerToGameObject(baseBrick, brickLayer);
+                    AssignLayerToGameObject(baseBrick, GameManager.brickLayer);
                     SetGameObjectColor(baseBrick, bricksColor);
                     SetGameObjectName(baseBrick, "BaseBrick " + b + "," + i + "," + j);
                 }
