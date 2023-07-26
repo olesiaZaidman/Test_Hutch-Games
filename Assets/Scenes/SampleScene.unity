@@ -133,6 +133,9 @@ GameObject:
   m_Component:
   - component: {fileID: 69846195}
   - component: {fileID: 69846194}
+  - component: {fileID: 69846198}
+  - component: {fileID: 69846197}
+  - component: {fileID: 69846196}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -167,6 +170,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &69846196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69846193}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb9e091b2706ab144a47d1dcaae200dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primitiveType: 3
+--- !u!114 &69846197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69846193}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25efb84612bcbc9488b0df32fc4ba764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primitiveType: 3
+--- !u!114 &69846198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69846193}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c81fd00456da9448927d4efbed2504, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primitiveType: 3
 --- !u!1 &276736188
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +221,7 @@ GameObject:
   - component: {fileID: 276736189}
   - component: {fileID: 276736191}
   m_Layer: 0
-  m_Name: 'LightController '
+  m_Name: 'Light&CameraController '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -455,12 +497,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb9e091b2706ab144a47d1dcaae200dd, type: 3}
+  m_Script: {fileID: 11500000, guid: db5d8c2993805374083ce4440a0b80dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primitiveType: 3
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,9 +511,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0dcb742a1453d84592548fe621fd540, type: 3}
+  m_Script: {fileID: 11500000, guid: 35a729ac5995fae4e8e421688c44fef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  primitiveType: 3
 --- !u!1 &1221291500
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1221291501
 MonoBehaviour:
   m_ObjectHideFlags: 0

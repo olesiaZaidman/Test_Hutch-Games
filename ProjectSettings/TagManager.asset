@@ -12,11 +12,11 @@ TagManager:
   - Water
   - UI
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - playerLayer
+  - invadersLayer
+  - brickLayer
+  - playerBulletLayer
+  - invadersBulletLayer
   - 
   - 
   - 
@@ -40,4 +40,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: playerLayer
+    uniqueID: 1802799711
+    locked: 0
+  - name: invadersLayer
+    uniqueID: 947984189
+    locked: 0
+  - name: brickLayer
+    uniqueID: 673759981
+    locked: 0
+  - name: playerBulletLayer
+    uniqueID: 462355157
+    locked: 0
+  - name: invadersBulletLayer
+    uniqueID: 3957695701
     locked: 0

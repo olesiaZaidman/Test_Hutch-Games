@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : GameObjectManager
 {
     GameObject player;
-    GameObject[] playerLives = new GameObject[GameManager.MaxPlayerLives];
+    GameObject[] playerLives = new GameObject[GameManager.MAX_PLAYER_LIVES];
 
     Color playerColor = Color.blue;
     Color playerLivesColor = Color.red;
@@ -50,7 +50,9 @@ public class PlayerController : GameObjectManager
         {
             UpdatePlayerMovement();
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.Space)) //(KeyCode.LeftShift) 
+   //Mashing Shift key for a QTE is not a good idea because of Windows Sticky Keys prompt
+
             {
                 bulletsController.PlayerShootBullets();
             }

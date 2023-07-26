@@ -11,82 +11,59 @@ public class GameManager : MonoBehaviour
     static public int playerBulletLayer = 10;
     static public int invadersBulletLayer = 11;
 
+    public static bool GameOver { get; private set; } = false;
+    public static bool WinGame { get; private set; } = false;
 
-    static int damageAmount = 1;
-    public static int DamageAmount
-    {
-        get { return damageAmount; }
-    }
+    public const int ENEMIES_DAMAGE_AMOUNT = 1;
+    public const int PLAYER_DAMAGE_AMOUNT = 1;
+    public const int VICTORY_POINTS = 10;
+    public const int MIN_START_SCORE  = 0;
+    public const int MAX_PLAYER_LIVES  = 2;
 
-    static int victoryPoints = 10;
-    public static int VictoryPoints
-    {
-        get { return victoryPoints; }
-    }
+    //public static int Score { get; private set; } =  MIN_START_SCORE;
+    //public static int Lives { get; private set; } =  MAX_PLAYER_LIVES;
 
 
     static int lives; //=2
-    static int maxPlayerLives = 2;
 
     static int currentScore; //=0
-    static int minStartingScore = 0;
 
-    static bool gameOver = false;
-    static bool winGame = false;
-
-
-    public static bool GameOver
-    {
-        get { return gameOver; }
-        private set { gameOver = value; }
-    }
-
-    public static bool WinGame
-    {
-        get { return winGame; }
-        private set { winGame = value; }
-    }
     public static int Lives
     {
         get { return lives; }
         private set { lives = value; }
     }
 
-    public static int MaxPlayerLives
-    {
-        get { return maxPlayerLives; }
-       // private set { maxPlayerLives = value; }
-    }
     public static int Score
-    {              
-      get { return currentScore; }
-      private  set { currentScore = value; }
-    }
-    public static int MinStartingScore
     {
-        get { return minStartingScore; }
-      //  private set { minStartingScore = value; }
+        get { return currentScore; }
+        private set { currentScore = value; }
     }
 
-    void Start()
+    public GameManager()
     {
-        SetGameValue(ref lives, MaxPlayerLives);
-        SetGameValue(ref currentScore, MinStartingScore);
+        ResetLivesAndScore();
     }
+
+    //void Start()
+    //{
+    //  //  ResetLivesAndScore();
+    //}
+
+    public static void ResetLivesAndScore()
+    {
+        Lives = MAX_PLAYER_LIVES;
+        Score = MIN_START_SCORE;
+    }
+
 
     void Update()
     {
         if (GameOver)
-        {               
+        {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-
-                // Reload scene and reset currentScore & lives for a new game:
-
-                SetGameValue(ref lives, MaxPlayerLives);                 // GameManager.ResetLives();
-                SetGameValue(ref currentScore, MinStartingScore);                // GameManager.ResetScore();
-                SceneLoader.Instance.ReloadCurrentScene();
-
+                RestartGame();
             }
         }
 
@@ -97,49 +74,71 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    public static void ResetLives()
+    private void RestartGame()
     {
-        lives = maxPlayerLives;
+        // Reload scene and reset currentScore & lives for a new game:
+        ResetLivesAndScore();
+        SceneLoader.Instance.ReloadCurrentScene();
     }
 
-    public static void ResetScore()
+  
+    public static void SetLives(int value)
     {
-        currentScore = minStartingScore;
+        Lives = value;
     }
 
-    public static void SetLives(int i)
+    public static void SetScore(int value)
     {
-        lives = i;
+        Score = value;
     }
 
-    public static void SetScore(int i)
+    public static void IncreaseScore(int points)
     {
-        currentScore = i;
+        Score += points;
     }
 
-    void SetGameValue(ref int value, int i)
-    {
-        value = i;
-    }
-    public static void AddPoints(int value, int points)
-    {
-        value += points;
+    public static void SubtractLives(int points)
+    { 
+        if (Lives > 0)
+        {
+            Lives -= points;
+        }
+        else
+        { 
+            Lives = 0; 
+        }       
     }
 
-    public static void SubstractPoints(int value, int points)
-    {
-        value -= points;
-    }
 
     public static void SetGameOver(bool isGameOver)
     {
-        gameOver = isGameOver;
+        GameOver = isGameOver;
     }
 
     public static void SetWinGameLevel(bool isWin)
     {
-        winGame = isWin;
+        WinGame = isWin;
     }
 
+
+    //void ResetLivesAndScore()
+    //{
+    //    SetGameValue(ref lives, MaxPlayerLives);
+    //    SetGameValue(ref currentScore, MinStartingScore);
+    //}
+
+
+    //void SetGameValue(ref int value, int i)
+    //{
+    //    value = i;
+    //}
+    //public static void AddPoints(int value, int points)
+    //{
+    //    value += points;
+    //}
+
+    //public static void SubstractPoints(int value, int points)
+    //{
+    //    value -= points;
+    //}
 }
