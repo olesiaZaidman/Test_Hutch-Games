@@ -100,18 +100,15 @@ public class InvadersController : GameObjectManager
 
     float CalculateInvaderSpeed()
     {
-        return MIN_INVADERS_SPEED +
-            //the more invaders die, the faster they move (dead_cooficient):
-            ((numInvadersDead / MAX_INVADERS_HORIZ_COUNT) * DEAD_INVADERS_SPEED_COEFFICIENT) +
-            (
-                //did we get to boss level (<= 3 invaders)
-                (numInvadersAlive <= MAX_AMOUNT_INVADERS_BOSS_LEVEL) ?
-                //if boss level, new speed adds up: 
-                ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT :
-                // ((4 - numInvadersAlive) * 1f)
-                //if not boss level, speed stays the same
-                0.0f
-            );
+        float extraSpeedWhenInvedersDie = ((numInvadersDead / MAX_INVADERS_HORIZ_COUNT) * DEAD_INVADERS_SPEED_COEFFICIENT);
+
+        bool isBossLevel = (numInvadersAlive <= MAX_AMOUNT_INVADERS_BOSS_LEVEL);
+
+        float extraSpeedInBossLevel = !isBossLevel ? 0 : (
+            ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT
+        );
+
+        return MIN_INVADERS_SPEED + extraSpeedWhenInvedersDie + extraSpeedInBossLevel;
     }
 
     void UpdateInvadersMovement()
