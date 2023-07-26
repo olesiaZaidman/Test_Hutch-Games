@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public const int PLAYER_LAYER = 1; 
-    public const  int INVADERS_LAYER = 2; 
-    public const  int BRICK_LAYER = 3;
-    public const  int PLAYER_BULLET_LAYER = 4;
+    public const int PLAYER_LAYER = 1;
+    public const int INVADERS_LAYER = 2;
+    public const int BRICK_LAYER = 3;
+    public const int PLAYER_BULLET_LAYER = 4;
     public const int INVADERS_BULLET_LAYER = 5;
 
     public const int ENEMIES_DAMAGE_AMOUNT = 1;
@@ -84,6 +84,40 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void RestartGame()
+    {
+        // Reload scene and reset currentScore & lives for a new game:
+        ResetLivesAndScore();
+        SceneLoader.Instance.ReloadCurrentScene();
+    }
+
+    public static void IncreaseScore(int points)
+    {
+        Score += points;
+    }
+
+    public static void SubtractLives(int points)
+    {
+        if (Lives > 0)
+        {
+            Lives -= points;
+        }
+        else
+        {
+            Lives = 0;
+        }
+    }
+
+    public static void SetGameOver(bool isGameOver)
+    {
+        GameOver = isGameOver;
+    }
+
+    public static void SetWinGameLevel(bool isWin)
+    {
+        WinGame = isWin;
+    }
+
     //void Debugger()
     //{
     //    if (Input.GetKeyDown(KeyCode.L))
@@ -96,39 +130,5 @@ public class GameManager : MonoBehaviour
     //    }
     //}
 
-    private void RestartGame()
-    {
-        // Reload scene and reset currentScore & lives for a new game:
-        
-        ResetLivesAndScore();
-        SceneLoader.Instance.ReloadCurrentScene();
-    }
-
-    public static void IncreaseScore(int points)
-    {
-        Score += points;
-    }
-
-    public static void SubtractLives(int points)
-    { 
-        if (Lives > 0)
-        {
-            Lives -= points;
-        }
-        else
-        { 
-            Lives = 0; 
-        }       
-    }
-
-    public static void SetGameOver(bool isGameOver)
-    {
-        GameOver = isGameOver;
-    }
-
-    public static void SetWinGameLevel(bool isWin)
-    {
-        WinGame = isWin;
-    }
 
 }

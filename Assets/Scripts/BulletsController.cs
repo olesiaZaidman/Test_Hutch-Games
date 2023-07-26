@@ -51,16 +51,16 @@ public class BulletsController : GameObjectManager
         }
 
     }
-   public void PlayerShootBullets()
+    public void PlayerShootBullets()
     {
         if (!bullets[0].activeSelf)
         {
-            Vector3 offset = new Vector3(0,1,0);
-            bullets[0].transform.position = playerController.GetPlayerPosition()+ offset;
+            Vector3 offset = new Vector3(0, 1, 0);
+            bullets[0].transform.position = playerController.GetPlayerPosition() + offset;
             bullets[0].SetActive(true);                                 // Fire a player bullet
         }
     }
-  
+
     void UpdateBulletsMovement()
     {
         for (int i = 0; i < bullets.Length; i++)
@@ -68,7 +68,7 @@ public class BulletsController : GameObjectManager
             if (bullets[i].activeSelf)
             {
                 bulletSpeed = (i == 0) ? PLAYER_BULLET_SPEED : ENEMY_BULLET_SPEED;
-              //  Debug.Log(bullets[i].name + "(bullets[" + i+"] "+ "bulletSpeed: "+ bulletSpeed);
+                //  Debug.Log(bullets[i].name + "(bullets[" + i+"] "+ "bulletSpeed: "+ bulletSpeed);
                 float newBulletY = bullets[i].transform.position.y + (bulletSpeed * Time.deltaTime);
                 MoveBulletVertically(bullets[i], newBulletY);
 
@@ -96,7 +96,7 @@ public class BulletsController : GameObjectManager
             Vector3 halfExtents = bullet.GetComponent<Collider>().bounds.extents;
             Quaternion orientation = bullet.transform.rotation;
             int layerMask = ((bullet.layer == GameManager.PLAYER_BULLET_LAYER) ?
-                (1 << GameManager.INVADERS_LAYER) +  (1 << GameManager.INVADERS_BULLET_LAYER) :
+                (1 << GameManager.INVADERS_LAYER) + (1 << GameManager.INVADERS_BULLET_LAYER) :
                 (1 << GameManager.PLAYER_LAYER) + (1 << GameManager.PLAYER_BULLET_LAYER))
                 + (1 << GameManager.BRICK_LAYER); //bitwise operations 
 
@@ -109,7 +109,7 @@ public class BulletsController : GameObjectManager
         void HandleBulletCollision(GameObject bullet, GameObject target)
         {
             bullet.SetActive(false);
-         //   Debug.Log("HandleBulletCollision: "+ target.layer);
+            //   Debug.Log("HandleBulletCollision: "+ target.layer);
             target.SetActive(false);
 
             if (target.layer == GameManager.INVADERS_LAYER)

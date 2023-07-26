@@ -39,14 +39,14 @@ public class PlayerController : GameObjectManager
     }
 
     public void TakeDamage()
-    {    
+    {
         if (GameManager.Lives > 0)
         {
             GameManager.SubtractLives(GameManager.PLAYER_DAMAGE_AMOUNT);
             playerLives[GameManager.Lives].SetActive(false);
             player.SetActive(true);
             player.transform.position = playerStartingPosition;
-          //  Debug.Log("GameManager.Lives = " + GameManager.Lives);
+            //  Debug.Log("GameManager.Lives = " + GameManager.Lives);
         }
         else
         {

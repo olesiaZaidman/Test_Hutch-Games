@@ -36,7 +36,7 @@ public class InvadersController : GameObjectManager
 
     private BulletsController bulletsController;
     GameObject[] bullets;
- 
+
     void Start()
     {
         CreateInvaders();
@@ -94,7 +94,7 @@ public class InvadersController : GameObjectManager
 
     public void IncreaseNumbersInvadersDead(int i)
     {
-        numInvadersDead += i; //        numInvadersDead++;
+        numInvadersDead += i; 
     }
 
 
@@ -107,9 +107,9 @@ public class InvadersController : GameObjectManager
                 //did we get to boss level (<= 3 invaders)
                 (numInvadersAlive <= MAX_AMOUNT_INVADERS_BOSS_LEVEL) ?
                 //if boss level, new speed adds up: 
-                ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT : 
+                ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT :
                 // ((4 - numInvadersAlive) * 1f)
-              //if not boss level, speed stays the same
+                //if not boss level, speed stays the same
                 0.0f
             );
     }
@@ -118,7 +118,7 @@ public class InvadersController : GameObjectManager
     {
         UpdateNumbersInvadersAlive();
 
-        invadersMovementSpeed = CalculateInvaderSpeed() * INVADERS_SPEED_COEFFICIENT; 
+        invadersMovementSpeed = CalculateInvaderSpeed() * INVADERS_SPEED_COEFFICIENT;
 
         bool isMovingDownCurFrame = invadersMovingDown;
 
@@ -139,10 +139,9 @@ public class InvadersController : GameObjectManager
 
     }
 
-
     Vector3 CalculateNewInvaderPosition(Vector3 currentPosition, bool isMovingDownCurFrame, float invaderSpeed)
     {
-        Vector3 newPos = currentPosition;   
+        Vector3 newPos = currentPosition;
 
         float movementDirection = invadersMovingLeft ? -1f : 1f;
         newPos.x += movementDirection * invaderSpeed * Time.deltaTime;
@@ -173,8 +172,6 @@ public class InvadersController : GameObjectManager
         return newPos;
 
     }
-
-
 
     void TryShootBullet(int i, int j)
     {

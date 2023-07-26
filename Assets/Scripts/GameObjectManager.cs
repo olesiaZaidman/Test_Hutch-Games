@@ -27,7 +27,6 @@ public class GameObjectManager : MonoBehaviour, IGameElement
         gameObject.transform.localScale = localScale;
     }
 
-
     public void SetGameObjectLocalScale(GameObject gameObject, Vector3 scale)
     {
         gameObject.transform.localScale = scale;
@@ -38,13 +37,10 @@ public class GameObjectManager : MonoBehaviour, IGameElement
         gameObject.transform.position = position;
     }
 
-
-
     public void SetGameObjectName(GameObject gameObject, string name)
     {
         gameObject.name = name;
     }
-
 
     public void AssignLayerToGameObject(GameObject gameObject, int layer)
     {
