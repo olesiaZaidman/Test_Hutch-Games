@@ -7,26 +7,31 @@ public class InvadersController : GameObjectManager
     Vector3 invadersStartingPosition = new Vector3(-5, 1, 0);
     Color invadersColor = new Color(0.3f, 0.045f, 0.46f);
 
-    static int maxInvadersHorizontalAmount = 10;
-    static int maxInvadersVerticalAmount = 5;
+    const int MAX_INVADERS_HORIZ_COUNT = 10;
+    const int MAX_INVADERS_VERT_COUNT = 5;
+    const float MIN_INVADERS_SPEED = 0.3f;
+    const float DEAD_INVADERS_SPEED_COEFFICIENT = 0.1f;
+    const float BOSS_LEVEL_SPEED_COEFFICIENT = 1f;
+    const int MAX_AMOUNT_INVADERS_BOSS_LEVEL = 3;
 
-    GameObject[,] invaders = new GameObject[maxInvadersHorizontalAmount, maxInvadersVerticalAmount];
+    GameObject[,] invaders = new GameObject[MAX_INVADERS_HORIZ_COUNT, MAX_INVADERS_VERT_COUNT];
 
 
     bool invadersMovingLeft = true;
     bool invadersMovingDown = false;
 
     int numInvadersDead = 0;
-    static int numInvadersAlive;
+
     float invadersMovementSpeed;
 
     private BulletsController bulletsController;
     GameObject[] bullets;
 
+    static int numInvadersAlive;
     public static int NumInvadersAlive
     {
         get { return numInvadersAlive; }
-        //   private set { numInvadersAlive = value; }
+
     }
 
     void Start()
@@ -67,10 +72,8 @@ public class InvadersController : GameObjectManager
                 invaders[i, j] = CreateGameObject(primitiveType);
 
                 Vector3 position = invadersStartingPosition + new Vector3(i * invadersHorizontalSpacing, j * invadersVerticalSpacing, 0);
-                //  Vector3 position = new Vector3(i - 5, (j * 0.5f) + 1, 0);
 
                 Vector3 localScale = new Vector3((j == (invaders.GetLength(1) - 1)) ? topRowScale : otherRowsScale, topRowScale, invadersDepthScale);
-                //   Vector3 localScale = new Vector3((j == (invaders.GetLength(1) - 1)) ? 0.4f : 0.6f, 0.4f, 0.5f); 
                 // Top row are smaller and harder to hit
 
                 SetTransformProperties(invaders[i, j], position, localScale);
@@ -94,7 +97,17 @@ public class InvadersController : GameObjectManager
 
     float CalculateInvaderSpeed()
     {
-        return 0.3f + ((numInvadersDead / 10) * 0.1f) + ((numInvadersAlive <= 3) ? ((4 - numInvadersAlive) * 1f) : 0.0f);
+        return MIN_INVADERS_SPEED +
+            //the more invaders die, the faster they move (dead_cooficient):
+            ((numInvadersDead / MAX_INVADERS_HORIZ_COUNT) * DEAD_INVADERS_SPEED_COEFFICIENT) +
+            (
+            //did we get to boss level (<= 3 invaders)
+                (numInvadersAlive <= MAX_AMOUNT_INVADERS_BOSS_LEVEL) ?
+                //if boss level, new speed adds up: 
+                ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT : // ((4 - numInvadersAlive) * 1f)
+             //if not boss level, speed stays the same
+                0.0f
+            ); 
     }
 
     void UpdateInvadersMovement()
@@ -113,7 +126,6 @@ public class InvadersController : GameObjectManager
         {
             for (int j = 0; j < invaders.GetLength(1); j++)
             {
-
                 if (invaders[i, j].activeSelf)
                 {
                     Vector3 newPos = CalculateNewInvaderPosition(invaders[i, j].transform.position, moveLeftThisUpdate, moveDownThisUpdate, invadersMovementSpeed);

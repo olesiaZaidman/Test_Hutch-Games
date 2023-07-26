@@ -7,9 +7,11 @@ public class BricksController : GameObjectManager
 
     Vector3 bricksStartingPosition = new Vector3(-3.6f, -3, 0);
     Vector3 bricksLocalScale = new Vector3(0.2f, 0.2f, 0.5f);
+
     Color bricksColor = Color.green;
-    static int maxbaseBricksAmount = 4;
-    GameObject[] bricks = new GameObject[maxbaseBricksAmount];
+
+    const int MAX_BRICKS_COUNT = 4;
+    GameObject[] bricks = new GameObject[MAX_BRICKS_COUNT];
 
 
     void CreateBricks()

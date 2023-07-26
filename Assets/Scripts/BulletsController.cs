@@ -13,9 +13,9 @@ public class BulletsController : GameObjectManager
     public static float EnemyBulletSpeed { get; private set; } = -5f;
 
     Color bulletsColor = Color.yellow;
-    static int maxBulletsAmount = 4;
+    const int MAX_BULLETS_COUNT = 4;
 
-    GameObject[] bullets = new GameObject[maxBulletsAmount];       // Bullet 0 is player's, rest are invader's
+    GameObject[] bullets = new GameObject[MAX_BULLETS_COUNT];       // Bullet 0 is player's, rest are invader's
     public GameObject[] Bullets => bullets;
 
     Vector3 bulletLocalScale = new Vector3(0.1f, 0.5f, 0.5f);
