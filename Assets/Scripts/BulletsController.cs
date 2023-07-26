@@ -5,6 +5,7 @@ public class BulletsController : GameObjectManager
 {
     const float PLAYER_BULLET_SPEED = 20f;
     const float ENEMY_BULLET_SPEED = -5f;
+    const int INDEX_PLAYER_BULLET = 0;
 
     float bulletSpeed;
 
@@ -28,7 +29,7 @@ public class BulletsController : GameObjectManager
             SetGameObjectLocalScale(bullets[i], bulletLocalScale);
 
             bullets[i].SetActive(false);
-            AssignLayerToGameObject(bullets[i], (i == 0) ? GameManager.PLAYER_BULLET_LAYER : GameManager.INVADERS_BULLET_LAYER); // Bullet 0 is player bullet (layer #4 is PlayerBullet)
+            AssignLayerToGameObject(bullets[i], (i == INDEX_PLAYER_BULLET) ? GameManager.PLAYER_BULLET_LAYER : GameManager.INVADERS_BULLET_LAYER); // Bullet 0 is player bullet (layer #4 is PlayerBullet)
             SetGameObjectColor(bullets[i], bulletsColor);
             SetGameObjectName(bullets[i], "Bullet " + (i + 1));
         }
@@ -53,11 +54,10 @@ public class BulletsController : GameObjectManager
     }
     public void PlayerShootBullets()
     {
-        if (!bullets[0].activeSelf)
+        if (!bullets[INDEX_PLAYER_BULLET].activeSelf)
         {
-            Vector3 offset = new Vector3(0, 1, 0);
-            bullets[0].transform.position = playerController.GetPlayerPosition() + offset;
-            bullets[0].SetActive(true);                                 // Fire a player bullet
+            bullets[INDEX_PLAYER_BULLET].transform.position = playerController.GetPlayerPosition();
+            bullets[INDEX_PLAYER_BULLET].SetActive(true);                                 // Fire a player bullet
         }
     }
 
@@ -67,7 +67,7 @@ public class BulletsController : GameObjectManager
         {
             if (bullets[i].activeSelf)
             {
-                bulletSpeed = (i == 0) ? PLAYER_BULLET_SPEED : ENEMY_BULLET_SPEED;
+                bulletSpeed = (i == INDEX_PLAYER_BULLET) ? PLAYER_BULLET_SPEED : ENEMY_BULLET_SPEED;
                 //  Debug.Log(bullets[i].name + "(bullets[" + i+"] "+ "bulletSpeed: "+ bulletSpeed);
                 float newBulletY = bullets[i].transform.position.y + (bulletSpeed * Time.deltaTime);
                 MoveBulletVertically(bullets[i], newBulletY);
