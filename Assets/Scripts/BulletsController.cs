@@ -32,7 +32,6 @@ public class BulletsController : GameObjectManager
             SetGameObjectLocalScale(bullets[i], bulletLocalScale);
 
             bullets[i].SetActive(false);
-            Debug.Log("CreateBullets");
             AssignLayerToGameObject(bullets[i], (i == 0) ? GameManager.playerBulletLayer : GameManager.invadersBulletLayer); // Bullet 0 is player bullet (layer #4 is PlayerBullet)
             SetGameObjectColor(bullets[i], bulletsColor);
             SetGameObjectName(bullets[i], "Bullet " + (i + 1));
@@ -60,7 +59,6 @@ public class BulletsController : GameObjectManager
     {
         if (!bullets[0].activeSelf)
         {
-            Debug.Log(bullets[0].name+ " Bullet speed: " + bulletSpeed);
             Vector3 offset = new Vector3(0,1,0);
             bullets[0].transform.position = playerController.GetPlayerPosition()+ offset;
             bullets[0].SetActive(true);                                 // Fire a player bullet
@@ -74,7 +72,7 @@ public class BulletsController : GameObjectManager
             if (bullets[i].activeSelf)
             {
                 bulletSpeed = (i == 0) ? PlayerBulletSpeed : EnemyBulletSpeed;
-                Debug.Log(bullets[i].name + "(bullets[" + i+"] "+ "bulletSpeed: "+ bulletSpeed);
+              //  Debug.Log(bullets[i].name + "(bullets[" + i+"] "+ "bulletSpeed: "+ bulletSpeed);
                 float newBulletY = bullets[i].transform.position.y + (bulletSpeed * Time.deltaTime);
                 MoveBulletVertically(bullets[i], newBulletY);
 
@@ -82,14 +80,12 @@ public class BulletsController : GameObjectManager
 
                 if (hits != null && hits.Length > 0)
                 {
-                    Debug.Log("hits "+ hits.Length);
                     HandleBulletCollision(bullets[i], hits[0].gameObject);
                 }
 
                 if (IsBulletOutOfBoundaries(bullets[i]))
                 {
                     bullets[i].SetActive(false);
-                    Debug.Log("IsBulletOutOfBoundaries");
                 }
             }
         }
@@ -117,7 +113,7 @@ public class BulletsController : GameObjectManager
         void HandleBulletCollision(GameObject bullet, GameObject target)
         {
             bullet.SetActive(false);
-            Debug.Log("HandleBulletCollision: "+ target.layer);
+         //   Debug.Log("HandleBulletCollision: "+ target.layer);
             target.SetActive(false);
 
             if (target.layer == GameManager.invadersLayer)

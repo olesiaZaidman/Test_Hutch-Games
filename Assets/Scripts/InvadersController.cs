@@ -13,6 +13,8 @@ public class InvadersController : GameObjectManager
     const float DEAD_INVADERS_SPEED_COEFFICIENT = 0.1f;
     const float BOSS_LEVEL_SPEED_COEFFICIENT = 1f;
     const int MAX_AMOUNT_INVADERS_BOSS_LEVEL = 3;
+    const float LEFT_BOUNDARY = -7f;
+    const float RIGHT_BOUNDARY = 7f;
 
     GameObject[,] invaders = new GameObject[MAX_INVADERS_HORIZ_COUNT, MAX_INVADERS_VERT_COUNT];
 
@@ -101,26 +103,24 @@ public class InvadersController : GameObjectManager
             //the more invaders die, the faster they move (dead_cooficient):
             ((numInvadersDead / MAX_INVADERS_HORIZ_COUNT) * DEAD_INVADERS_SPEED_COEFFICIENT) +
             (
-            //did we get to boss level (<= 3 invaders)
+                //did we get to boss level (<= 3 invaders)
                 (numInvadersAlive <= MAX_AMOUNT_INVADERS_BOSS_LEVEL) ?
                 //if boss level, new speed adds up: 
                 ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT : // ((4 - numInvadersAlive) * 1f)
-             //if not boss level, speed stays the same
+                                                                                                           //if not boss level, speed stays the same
                 0.0f
-            ); 
+            );
     }
 
     void UpdateInvadersMovement()
     {
-        bool moveLeftThisUpdate = invadersMovingLeft;
-        bool moveDownThisUpdate = invadersMovingDown;
-
-        invadersMovingDown = false;
-
         UpdateNumbersInvadersAlive();
 
-        invadersMovementSpeed = CalculateInvaderSpeed();
+        invadersMovementSpeed = CalculateInvaderSpeed() * 5; //DELETE 5 AFTER DEBUG
 
+        bool isMovingDownCurFrame = invadersMovingDown;
+
+        invadersMovingDown = false;
 
         for (int i = 0; i < invaders.GetLength(0); i++)
         {
@@ -128,14 +128,50 @@ public class InvadersController : GameObjectManager
             {
                 if (invaders[i, j].activeSelf)
                 {
-                    Vector3 newPos = CalculateNewInvaderPosition(invaders[i, j].transform.position, moveLeftThisUpdate, moveDownThisUpdate, invadersMovementSpeed);
+                    Vector3 newPos = CalculateNewInvaderPosition(invaders[i, j].transform.position, isMovingDownCurFrame, invadersMovementSpeed);
                     invaders[i, j].transform.position = newPos;
-
                     TryShootBullet(i, j);
                 }
             }
         }
+
     }
+
+
+    Vector3 CalculateNewInvaderPosition(Vector3 currentPosition, bool isMovingDownCurFrame, float invaderSpeed)
+    {
+        Vector3 newPos = currentPosition;   
+
+        float movementDirection = invadersMovingLeft ? -1f : 1f;
+        newPos.x += movementDirection * invaderSpeed * Time.deltaTime;
+
+        if (isMovingDownCurFrame)
+        {
+            newPos.y -= 0.25f;
+        }
+
+        if (newPos.y < -2f)
+        {
+            GameManager.SetGameOver(true);
+        }
+
+        if (newPos.x < LEFT_BOUNDARY)
+        {
+            invadersMovingLeft = false;
+            invadersMovingDown = true;
+
+        }
+
+        if (newPos.x > RIGHT_BOUNDARY)
+        {
+            invadersMovingLeft = true;
+            invadersMovingDown = true;
+        }
+
+        return newPos;
+
+    }
+
 
 
     void TryShootBullet(int i, int j)
@@ -165,58 +201,5 @@ public class InvadersController : GameObjectManager
             bullets[bulletIndex].SetActive(true);
         }
 
-        /*
-         	if( !bullets[(i%(bullets.Length-1))+1].activeSelf && ((j == 0) || !invaders[i,j-1].activeSelf) && (Random.value < 0.01f) )
-	{
-	bullets[(i%(bullets.Length-1))+1].transform.position = invaders[i,j].transform.position - (Vector3.up*0.5f);
-	bullets[(i%(bullets.Length-1))+1].SetActive(true);
-	}
-        */
-
     }
-
-    Vector3 CalculateNewInvaderPosition(Vector3 currentPosition, bool moveLeft, bool moveDown, float invaderSpeed)
-    {
-        Vector3 newPos = currentPosition;
-
-        if (moveDown)
-        {
-            newPos.y -= 0.25f;
-        }
-
-        if (newPos.y < -2f)
-        {
-            GameManager.SetGameOver(true);
-        }
-
-        float movementDirection = moveLeft ? -1f : 1f;
-        newPos.x -= movementDirection * invaderSpeed * Time.deltaTime;
-
-        if ((moveLeft && (newPos.x < -7.0f)) || (!moveLeft && (newPos.x > 7.0f)))
-        {
-            invadersMovingLeft = !moveLeft;
-            invadersMovingDown = true;
-        }
-
-        return newPos;
-
-
-        /*
-                    Vector3 newPos = invaders[i, j].transform.position;
-                    if (moveDownThisUpdate)
-                        newPos.y -= 0.25f;
-                    if (newPos.y < -2f)
-                        GameManager.SetGameOver(true);
-                    // InvadersController reached bases = game over
-                    newPos.x -= (moveLeftThisUpdate ? invadersMovementSpeed : -invadersMovementSpeed) * Time.deltaTime;
-                    if ((invadersMovingLeft && (newPos.x < -7.0f)) || ((!invadersMovingLeft) && (newPos.x > 7.0f)))
-                    {
-                        invadersMovingLeft = !invadersMovingLeft;
-                        invadersMovingDown = true;
-                    }
-                   */
-    }
-
-
-
 }
