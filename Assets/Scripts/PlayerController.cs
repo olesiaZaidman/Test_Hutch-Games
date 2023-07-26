@@ -36,13 +36,21 @@ public class PlayerController : GameObjectManager
     }
 
     public void TakeDamage()
-    {
-        playerLives[GameManager.Lives].SetActive(false);
-        player.SetActive(true);
-        player.transform.position = playerStartingPosition;
-        Debug.Log("GameManager.Lives = " + GameManager.Lives);
-
+    {    
+        if (GameManager.Lives > 0)
+        {
+            GameManager.SubtractLives(GameManager.PLAYER_DAMAGE_AMOUNT);
+            playerLives[GameManager.Lives].SetActive(false);
+            player.SetActive(true);
+            player.transform.position = playerStartingPosition;
+            Debug.Log("GameManager.Lives = " + GameManager.Lives);
+        }
+        else
+        {
+            GameManager.SetGameOver(true);
+        }
     }
+
 
     void Update()
     {
@@ -90,14 +98,6 @@ public class PlayerController : GameObjectManager
         }
     }
 
-
-    //void UpdatePlayerMovement()
-    //{
-
-    //    float newPlayerX = player.transform.position.x + (Input.GetAxis("Horizontal") * 10f * Time.deltaTime);
-    //    player.transform.position = new Vector3(Mathf.Clamp(newPlayerX, -7f, 7f), -4f, 0f);
-
-    //}
 
     void UpdatePlayerMovement()
     {

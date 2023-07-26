@@ -32,6 +32,7 @@ public class BulletsController : GameObjectManager
             SetGameObjectLocalScale(bullets[i], bulletLocalScale);
 
             bullets[i].SetActive(false);
+            Debug.Log("CreateBullets");
             AssignLayerToGameObject(bullets[i], (i == 0) ? GameManager.playerBulletLayer : GameManager.invadersBulletLayer); // Bullet 0 is player bullet (layer #4 is PlayerBullet)
             SetGameObjectColor(bullets[i], bulletsColor);
             SetGameObjectName(bullets[i], "Bullet " + (i + 1));
@@ -59,7 +60,9 @@ public class BulletsController : GameObjectManager
     {
         if (!bullets[0].activeSelf)
         {
-            bullets[0].transform.position = playerController.GetPlayerPosition();
+            Debug.Log(bullets[0].name+ " Bullet speed: " + bulletSpeed);
+            Vector3 offset = new Vector3(0,1,0);
+            bullets[0].transform.position = playerController.GetPlayerPosition()+ offset;
             bullets[0].SetActive(true);                                 // Fire a player bullet
         }
     }
@@ -71,7 +74,7 @@ public class BulletsController : GameObjectManager
             if (bullets[i].activeSelf)
             {
                 bulletSpeed = (i == 0) ? PlayerBulletSpeed : EnemyBulletSpeed;
-
+                Debug.Log(bullets[i].name + "(bullets[" + i+"] "+ "bulletSpeed: "+ bulletSpeed);
                 float newBulletY = bullets[i].transform.position.y + (bulletSpeed * Time.deltaTime);
                 MoveBulletVertically(bullets[i], newBulletY);
 
@@ -79,12 +82,14 @@ public class BulletsController : GameObjectManager
 
                 if (hits != null && hits.Length > 0)
                 {
+                    Debug.Log("hits "+ hits.Length);
                     HandleBulletCollision(bullets[i], hits[0].gameObject);
                 }
 
                 if (IsBulletOutOfBoundaries(bullets[i]))
                 {
                     bullets[i].SetActive(false);
+                    Debug.Log("IsBulletOutOfBoundaries");
                 }
             }
         }
@@ -98,12 +103,10 @@ public class BulletsController : GameObjectManager
             Vector3 center = bullet.GetComponent<Collider>().bounds.center;
             Vector3 halfExtents = bullet.GetComponent<Collider>().bounds.extents;
             Quaternion orientation = bullet.transform.rotation;
-            int layerMask = ((bullet.layer == 0) ? (1 << GameManager.invadersLayer) + (1 << GameManager.invadersBulletLayer) : (1 << GameManager.playerLayer) + (1 << GameManager.playerBulletLayer)) + (1 << GameManager.brickLayer); //bitwise operations 
-
-            //    int layerMask = ((bullet.layer == 0) ? (1 << 2) + (1 << 5) : (1 << 1) + (1 << 4)) + (1 << 3); //bitwise operations 
-            // (1 << 2) + (1 << 5) corresponds  to layers 2 and 5 (GameManager.invadersLayer and GameManager.invadersBulletLayer)
-            //(1 << 1) + (1 << 4) corresponds  to layers 1 and 4 (GameManager.playerLayer and GameManager.playerBulletLayer )
-            //(1 << 3) corresponds layers 3 (GameManager.brickLayer)
+            int layerMask = ((bullet.layer == GameManager.playerBulletLayer) ?
+                (1 << GameManager.invadersLayer) +  (1 << GameManager.invadersBulletLayer) :
+                (1 << GameManager.playerLayer) + (1 << GameManager.playerBulletLayer))
+                + (1 << GameManager.brickLayer); //bitwise operations 
 
             return Physics.OverlapBox(center, halfExtents, orientation, layerMask);
 
@@ -114,6 +117,7 @@ public class BulletsController : GameObjectManager
         void HandleBulletCollision(GameObject bullet, GameObject target)
         {
             bullet.SetActive(false);
+            Debug.Log("HandleBulletCollision: "+ target.layer);
             target.SetActive(false);
 
             if (target.layer == GameManager.invadersLayer)
@@ -123,16 +127,7 @@ public class BulletsController : GameObjectManager
             }
             else if (target.layer == GameManager.playerLayer)
             {
-                GameManager.SubtractLives(GameManager.PLAYER_DAMAGE_AMOUNT);
-
-                if (GameManager.Lives >= 0)
-                {
-                    playerController.TakeDamage();
-                }
-                else
-                {
-                    GameManager.SetGameOver(true);
-                }
+                playerController.TakeDamage();
             }
         }
 
