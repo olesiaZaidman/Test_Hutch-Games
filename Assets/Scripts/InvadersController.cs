@@ -3,14 +3,10 @@ using UnityEngine;
 
 public class InvadersController : GameObjectManager
 {
-    GameObject[,] invaders = new GameObject[MAX_INVADERS_HORIZ_COUNT, MAX_INVADERS_VERT_COUNT];
 
-    Vector3 invadersStartingPosition = new Vector3(-5, 1, 0);
-    Color invadersColor = new Color(0.3f, 0.045f, 0.46f);
-
-    const int MAX_INVADERS_HORIZ_COUNT = 10;
-    const int MAX_INVADERS_VERT_COUNT = 5;
-
+    //[Range(1f, 10f)]
+    //public float invadersSpeedCoefficient = 3f;   
+    const float INVADERS_SPEED_COEFFICIENT = 3f;
     const float MIN_INVADERS_SPEED = 0.3f;
     const float DEAD_INVADERS_SPEED_COEFFICIENT = 0.1f;
     const float BOSS_LEVEL_SPEED_COEFFICIENT = 1f;
@@ -21,20 +17,26 @@ public class InvadersController : GameObjectManager
     const float LOWEST_BOUNDARY = -2f;
     const float VERTICAL_MOVE_DISTANCE = 0.25f;
 
+    const int MAX_INVADERS_HORIZ_COUNT = 10;
+    const int MAX_INVADERS_VERT_COUNT = 5;
+
+    GameObject[,] invaders = new GameObject[MAX_INVADERS_HORIZ_COUNT, MAX_INVADERS_VERT_COUNT];
+
+    Vector3 invadersStartingPosition = new Vector3(-5, 1, 0);
+    Color invadersColor = new Color(0.3f, 0.045f, 0.46f);
+
+    int numInvadersDead = 0;
+    static int numInvadersAlive;
+    public static int NumInvadersAlive => numInvadersAlive;
+
     bool invadersMovingLeft = true;
     bool invadersMovingDown = false;
 
-    int numInvadersDead = 0;
     float invadersMovementSpeed;
 
     private BulletsController bulletsController;
     GameObject[] bullets;
-
-    static int numInvadersAlive;
-    public static int NumInvadersAlive => numInvadersAlive;
-
  
-
     void Start()
     {
         CreateInvaders();
@@ -105,8 +107,9 @@ public class InvadersController : GameObjectManager
                 //did we get to boss level (<= 3 invaders)
                 (numInvadersAlive <= MAX_AMOUNT_INVADERS_BOSS_LEVEL) ?
                 //if boss level, new speed adds up: 
-                ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT : // ((4 - numInvadersAlive) * 1f)
-                                                                                                           //if not boss level, speed stays the same
+                ((MAX_AMOUNT_INVADERS_BOSS_LEVEL + 1) - numInvadersAlive) * BOSS_LEVEL_SPEED_COEFFICIENT : 
+                // ((4 - numInvadersAlive) * 1f)
+              //if not boss level, speed stays the same
                 0.0f
             );
     }
@@ -115,7 +118,7 @@ public class InvadersController : GameObjectManager
     {
         UpdateNumbersInvadersAlive();
 
-        invadersMovementSpeed = CalculateInvaderSpeed() * 5; //DELETE 5 AFTER DEBUG
+        invadersMovementSpeed = CalculateInvaderSpeed() * INVADERS_SPEED_COEFFICIENT; 
 
         bool isMovingDownCurFrame = invadersMovingDown;
 

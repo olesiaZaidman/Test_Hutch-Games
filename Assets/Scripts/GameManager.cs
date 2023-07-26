@@ -3,25 +3,23 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     public const int PLAYER_LAYER = 1; 
     public const  int INVADERS_LAYER = 2; 
     public const  int BRICK_LAYER = 3;
     public const  int PLAYER_BULLET_LAYER = 4;
     public const int INVADERS_BULLET_LAYER = 5;
 
-    public static bool GameOver { get; private set; } = false;
-    public static bool WinGame { get; private set; } = false;
-
     public const int ENEMIES_DAMAGE_AMOUNT = 1;
     public const int PLAYER_DAMAGE_AMOUNT = 1;
     public const int VICTORY_POINTS = 10;
-    public const int MIN_START_SCORE  = 0;
-    public const int MAX_PLAYER_LIVES  = 2;
+    public const int MIN_START_SCORE = 0;
+    public const int MAX_PLAYER_LIVES = 2;
 
     //public static int Score { get; private set; } =  MIN_START_SCORE;
     //public static int Lives { get; private set; } =  MAX_PLAYER_LIVES;
 
+    public static bool GameOver { get; private set; } = false;
+    public static bool WinGame { get; private set; } = false;
 
     static int lives; //=2
 
@@ -39,15 +37,15 @@ public class GameManager : MonoBehaviour
         private set { currentScore = value; }
     }
 
-    //public GameManager()
-    //{
-    //    ResetLivesAndScore();
-    //}
-
-    void Start()
+    public GameManager()
     {
         ResetLivesAndScore();
     }
+
+    //void Start()
+    //{
+    //    ResetLivesAndScore();
+    //}
 
     public static void ResetLivesAndScore()
     {
@@ -58,10 +56,10 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (!GameOver)
-        {
-            Debugger();
-        }
+        //if (!GameOver)
+        //{
+        //    Debugger();
+        //}
 
         if (GameOver)
         {
@@ -86,17 +84,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Debugger()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SetGameOver(true);            
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetWinGameLevel(true);
-        }
-    }
+    //void Debugger()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.L))
+    //    {
+    //        SetGameOver(true);            
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        SetWinGameLevel(true);
+    //    }
+    //}
 
     private void RestartGame()
     {

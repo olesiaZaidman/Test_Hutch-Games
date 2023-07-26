@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class PlayerController : GameObjectManager
 {
+    //[Range(1f, 20f)]
+    //public float movementSpeed = 10f;
+    const float MOVEMENT_SPEED = 10f;
+
+    float movementInput;
+
     GameObject player;
     GameObject[] playerLives = new GameObject[GameManager.MAX_PLAYER_LIVES];
 
@@ -18,8 +24,6 @@ public class PlayerController : GameObjectManager
 
     BulletsController bulletsController;
 
-    float movementInput;
-    float movementSpeed = 10f;
 
     void Start()
     {
@@ -101,7 +105,7 @@ public class PlayerController : GameObjectManager
     void UpdatePlayerMovement()
     {
         movementInput = Input.GetAxis("Horizontal");
-        float newPlayerX = CalculateNewPlayerX(movementInput, movementSpeed);
+        float newPlayerX = CalculateNewPlayerX(movementInput, MOVEMENT_SPEED);
 
         float minXValue = -7f;
         float maxXValue = 7f;

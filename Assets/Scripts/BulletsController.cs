@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class BulletsController : GameObjectManager
 {
+    const float PLAYER_BULLET_SPEED = 20f;
+    const float ENEMY_BULLET_SPEED = -5f;
+
     float bulletSpeed;
 
-    [Tooltip("The bullet bulletSpeed shoot by the player")]
-    public static float PlayerBulletSpeed { get; private set; } = 20f;
-    [Tooltip("The bullet bulletSpeed shoot by the enemies")]
-    public static float EnemyBulletSpeed { get; private set; } = -5f;
-
     Color bulletsColor = Color.yellow;
-    const int MAX_BULLETS_COUNT = 4;
 
+    const int MAX_BULLETS_COUNT = 4;
     GameObject[] bullets = new GameObject[MAX_BULLETS_COUNT];       // Bullet 0 is player's, rest are invader's
     public GameObject[] Bullets => bullets;
 
@@ -69,7 +67,7 @@ public class BulletsController : GameObjectManager
         {
             if (bullets[i].activeSelf)
             {
-                bulletSpeed = (i == 0) ? PlayerBulletSpeed : EnemyBulletSpeed;
+                bulletSpeed = (i == 0) ? PLAYER_BULLET_SPEED : ENEMY_BULLET_SPEED;
               //  Debug.Log(bullets[i].name + "(bullets[" + i+"] "+ "bulletSpeed: "+ bulletSpeed);
                 float newBulletY = bullets[i].transform.position.y + (bulletSpeed * Time.deltaTime);
                 MoveBulletVertically(bullets[i], newBulletY);
