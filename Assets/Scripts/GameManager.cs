@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 
-    static public int playerLayer = 1; //GameManager.playerLayer //7
-    static public int invadersLayer = 2; //GameManager.invadersLayer
-    static public int brickLayer = 3;
-    static public int playerBulletLayer = 4;
-    static public int invadersBulletLayer = 5;
+    public const int PLAYER_LAYER = 1; 
+    public const  int INVADERS_LAYER = 2; 
+    public const  int BRICK_LAYER = 3;
+    public const  int PLAYER_BULLET_LAYER = 4;
+    public const int INVADERS_BULLET_LAYER = 5;
 
     public static bool GameOver { get; private set; } = false;
     public static bool WinGame { get; private set; } = false;
@@ -40,15 +39,15 @@ public class GameManager : MonoBehaviour
         private set { currentScore = value; }
     }
 
-    public GameManager()
+    //public GameManager()
+    //{
+    //    ResetLivesAndScore();
+    //}
+
+    void Start()
     {
         ResetLivesAndScore();
     }
-
-    //void Start()
-    //{
-    //  //  ResetLivesAndScore();
-    //}
 
     public static void ResetLivesAndScore()
     {
@@ -59,37 +58,52 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (!GameOver)
+        {
+            Debugger();
+        }
+
         if (GameOver)
         {
+            UIManager.Instance.UpdateUITextScore();
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                SetGameOver(false);
                 RestartGame();
             }
         }
 
         if (WinGame)
         {
-            SceneLoader.Instance.ReloadCurrentScene();
-            // Reload scene for a new attack wave
+            UIManager.Instance.UpdateUITextScore();
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                RestartGame();
+                SetWinGameLevel(false);
+            }
+        }
+    }
+
+    void Debugger()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            SetGameOver(true);            
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SetWinGameLevel(true);
         }
     }
 
     private void RestartGame()
     {
         // Reload scene and reset currentScore & lives for a new game:
+        
         ResetLivesAndScore();
         SceneLoader.Instance.ReloadCurrentScene();
-    }
-
-  
-    public static void SetLives(int value)
-    {
-        Lives = value;
-    }
-
-    public static void SetScore(int value)
-    {
-        Score = value;
     }
 
     public static void IncreaseScore(int points)
@@ -109,7 +123,6 @@ public class GameManager : MonoBehaviour
         }       
     }
 
-
     public static void SetGameOver(bool isGameOver)
     {
         GameOver = isGameOver;
@@ -120,25 +133,4 @@ public class GameManager : MonoBehaviour
         WinGame = isWin;
     }
 
-
-    //void ResetLivesAndScore()
-    //{
-    //    SetGameValue(ref lives, MaxPlayerLives);
-    //    SetGameValue(ref currentScore, MinStartingScore);
-    //}
-
-
-    //void SetGameValue(ref int value, int i)
-    //{
-    //    value = i;
-    //}
-    //public static void AddPoints(int value, int points)
-    //{
-    //    value += points;
-    //}
-
-    //public static void SubstractPoints(int value, int points)
-    //{
-    //    value -= points;
-    //}
 }

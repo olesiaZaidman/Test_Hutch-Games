@@ -1,40 +1,39 @@
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class InvadersController : GameObjectManager
 {
+    GameObject[,] invaders = new GameObject[MAX_INVADERS_HORIZ_COUNT, MAX_INVADERS_VERT_COUNT];
 
     Vector3 invadersStartingPosition = new Vector3(-5, 1, 0);
     Color invadersColor = new Color(0.3f, 0.045f, 0.46f);
 
     const int MAX_INVADERS_HORIZ_COUNT = 10;
     const int MAX_INVADERS_VERT_COUNT = 5;
+
     const float MIN_INVADERS_SPEED = 0.3f;
     const float DEAD_INVADERS_SPEED_COEFFICIENT = 0.1f;
     const float BOSS_LEVEL_SPEED_COEFFICIENT = 1f;
     const int MAX_AMOUNT_INVADERS_BOSS_LEVEL = 3;
+
     const float LEFT_BOUNDARY = -7f;
     const float RIGHT_BOUNDARY = 7f;
-
-    GameObject[,] invaders = new GameObject[MAX_INVADERS_HORIZ_COUNT, MAX_INVADERS_VERT_COUNT];
-
+    const float LOWEST_BOUNDARY = -2f;
+    const float VERTICAL_MOVE_DISTANCE = 0.25f;
 
     bool invadersMovingLeft = true;
     bool invadersMovingDown = false;
 
     int numInvadersDead = 0;
-
     float invadersMovementSpeed;
 
     private BulletsController bulletsController;
     GameObject[] bullets;
 
     static int numInvadersAlive;
-    public static int NumInvadersAlive
-    {
-        get { return numInvadersAlive; }
+    public static int NumInvadersAlive => numInvadersAlive;
 
-    }
+ 
 
     void Start()
     {
@@ -79,7 +78,7 @@ public class InvadersController : GameObjectManager
                 // Top row are smaller and harder to hit
 
                 SetTransformProperties(invaders[i, j], position, localScale);
-                AssignLayerToGameObject(invaders[i, j], GameManager.invadersLayer);
+                AssignLayerToGameObject(invaders[i, j], GameManager.INVADERS_LAYER);
                 SetGameObjectColor(invaders[i, j], invadersColor);
                 SetGameObjectName(invaders[i, j], "Invader " + i + "," + j);
             }
@@ -147,10 +146,10 @@ public class InvadersController : GameObjectManager
 
         if (isMovingDownCurFrame)
         {
-            newPos.y -= 0.25f;
+            newPos.y -= VERTICAL_MOVE_DISTANCE;
         }
 
-        if (newPos.y < -2f)
+        if (newPos.y < LOWEST_BOUNDARY)
         {
             GameManager.SetGameOver(true);
         }

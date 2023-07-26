@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class PlayerController : GameObjectManager
@@ -43,7 +42,7 @@ public class PlayerController : GameObjectManager
             playerLives[GameManager.Lives].SetActive(false);
             player.SetActive(true);
             player.transform.position = playerStartingPosition;
-            Debug.Log("GameManager.Lives = " + GameManager.Lives);
+          //  Debug.Log("GameManager.Lives = " + GameManager.Lives);
         }
         else
         {
@@ -79,7 +78,7 @@ public class PlayerController : GameObjectManager
         SetTransformProperties(player, playerStartingPosition, playerLocalScale);
         SetGameObjectColor(player, playerColor);
         SetGameObjectName(player, "Player");
-        AssignLayerToGameObject(player, GameManager.playerLayer);
+        AssignLayerToGameObject(player, GameManager.PLAYER_LAYER);
     }
 
 

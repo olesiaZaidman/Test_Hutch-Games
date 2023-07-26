@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+
 using UnityEngine;
 
 public class BulletsController : GameObjectManager
@@ -32,7 +30,7 @@ public class BulletsController : GameObjectManager
             SetGameObjectLocalScale(bullets[i], bulletLocalScale);
 
             bullets[i].SetActive(false);
-            AssignLayerToGameObject(bullets[i], (i == 0) ? GameManager.playerBulletLayer : GameManager.invadersBulletLayer); // Bullet 0 is player bullet (layer #4 is PlayerBullet)
+            AssignLayerToGameObject(bullets[i], (i == 0) ? GameManager.PLAYER_BULLET_LAYER : GameManager.INVADERS_BULLET_LAYER); // Bullet 0 is player bullet (layer #4 is PlayerBullet)
             SetGameObjectColor(bullets[i], bulletsColor);
             SetGameObjectName(bullets[i], "Bullet " + (i + 1));
         }
@@ -99,10 +97,10 @@ public class BulletsController : GameObjectManager
             Vector3 center = bullet.GetComponent<Collider>().bounds.center;
             Vector3 halfExtents = bullet.GetComponent<Collider>().bounds.extents;
             Quaternion orientation = bullet.transform.rotation;
-            int layerMask = ((bullet.layer == GameManager.playerBulletLayer) ?
-                (1 << GameManager.invadersLayer) +  (1 << GameManager.invadersBulletLayer) :
-                (1 << GameManager.playerLayer) + (1 << GameManager.playerBulletLayer))
-                + (1 << GameManager.brickLayer); //bitwise operations 
+            int layerMask = ((bullet.layer == GameManager.PLAYER_BULLET_LAYER) ?
+                (1 << GameManager.INVADERS_LAYER) +  (1 << GameManager.INVADERS_BULLET_LAYER) :
+                (1 << GameManager.PLAYER_LAYER) + (1 << GameManager.PLAYER_BULLET_LAYER))
+                + (1 << GameManager.BRICK_LAYER); //bitwise operations 
 
             return Physics.OverlapBox(center, halfExtents, orientation, layerMask);
 
@@ -116,12 +114,13 @@ public class BulletsController : GameObjectManager
          //   Debug.Log("HandleBulletCollision: "+ target.layer);
             target.SetActive(false);
 
-            if (target.layer == GameManager.invadersLayer)
+            if (target.layer == GameManager.INVADERS_LAYER)
             {
                 GameManager.IncreaseScore(GameManager.VICTORY_POINTS);
+                UIManager.Instance.UpdateUITextScore();
                 invadersController.IncreaseNumbersInvadersDead(GameManager.ENEMIES_DAMAGE_AMOUNT);
             }
-            else if (target.layer == GameManager.playerLayer)
+            else if (target.layer == GameManager.PLAYER_LAYER)
             {
                 playerController.TakeDamage();
             }

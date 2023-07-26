@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class BricksController : GameObjectManager
@@ -32,7 +31,7 @@ public class BricksController : GameObjectManager
                     // baseBrick.transform.position = new Vector3((b * 2.2f) + (i * 0.2f) - 3.6f, (j * 0.2f) - 3, 0);
 
                     SetTransformProperties(baseBrick, position, bricksLocalScale);
-                    AssignLayerToGameObject(baseBrick, GameManager.brickLayer);
+                    AssignLayerToGameObject(baseBrick, GameManager.BRICK_LAYER);
                     SetGameObjectColor(baseBrick, bricksColor);
                     SetGameObjectName(baseBrick, "BaseBrick " + b + "," + i + "," + j);
                 }
