@@ -132,8 +132,12 @@ public class Invaders : MonoBehaviour
 					bullets[i].transform.position = new Vector3(bullets[i].transform.position.x, newBulletY, bullets[i].transform.position.z);
 
                     //CheckBulletsCollisions
-                    Collider[] hits = Physics.OverlapBox(bullets[i].GetComponent<Collider>().bounds.center, bullets[i].GetComponent<Collider>().bounds.extents, bullets[i].transform.rotation, ((i==0)?(1<<2)+(1<<5):(1<<1)+(1<<4))+(1<<3));
+                    // ((i==0)?(1<<2)+(1<<5):(1<<1)+(1<<4))+(1<<3))
+                    int layerMask = ((i == 0) ? (1 << 2) + (1 << 5) : (1 << 1) + (1 << 4)) + (1 << 3);
+                    Collider[] hits = Physics.OverlapBox(bullets[i].GetComponent<Collider>().bounds.center, bullets[i].GetComponent<Collider>().bounds.extents, bullets[i].transform.rotation, layerMask);
 
+                    //  Collider[] hits = Physics.OverlapBox(bullets[i].GetComponent<Collider>().bounds.center, bullets[i].GetComponent<Collider>().bounds.extents, bullets[i].transform.rotation, ((i==0)?(1<<2)+(1<<5):(1<<1)+(1<<4))+(1<<3));
+                    Debug.Log( " Layer Mask: " + layerMask);
                     //HandleBulletCollision:
                     if ((hits != null) && (hits.Length > 0))
 					{

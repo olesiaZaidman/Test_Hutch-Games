@@ -12,8 +12,6 @@ public class BricksController : GameObjectManager
     GameObject[] bricks = new GameObject[maxbaseBricksAmount];
 
 
-
-
     void CreateBricks()
     {
         float bricksHorizontalSpacing = 2.2f;
@@ -46,9 +44,4 @@ public class BricksController : GameObjectManager
         CreateBricks();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -5,25 +5,25 @@ using UnityEngine;
 
 public class BulletsController : GameObjectManager
 {
+    float bulletSpeed;
+
     [Tooltip("The bullet bulletSpeed shoot by the player")]
     public static float PlayerBulletSpeed { get; private set; } = 20f;
     [Tooltip("The bullet bulletSpeed shoot by the enemies")]
     public static float EnemyBulletSpeed { get; private set; } = -5f;
 
-  //  Bullet bulletStats;
-
-    PlayerController playerController;
-    InvadersController invadersController;
-
     Color bulletsColor = Color.yellow;
     static int maxBulletsAmount = 4;
 
     GameObject[] bullets = new GameObject[maxBulletsAmount];       // Bullet 0 is player's, rest are invader's
+    public GameObject[] Bullets => bullets;
+
     Vector3 bulletLocalScale = new Vector3(0.1f, 0.5f, 0.5f);
 
-    float bulletSpeed;
+    PlayerController playerController;
+    InvadersController invadersController;
 
-    public GameObject[] Bullets => bullets;
+
     void CreateBullets()
     {
         for (int i = 0; i < bullets.Length; i++)
@@ -57,12 +57,10 @@ public class BulletsController : GameObjectManager
     }
    public void PlayerShootBullets()
     {
-        //PlayerController playerController = FindObjectOfType<PlayerController>();
-
         if (!bullets[0].activeSelf)
         {
             bullets[0].transform.position = playerController.GetPlayerPosition();
-            bullets[0].SetActive(true);                                 // Fire a player bullet}
+            bullets[0].SetActive(true);                                 // Fire a player bullet
         }
     }
   
@@ -100,18 +98,18 @@ public class BulletsController : GameObjectManager
             Vector3 center = bullet.GetComponent<Collider>().bounds.center;
             Vector3 halfExtents = bullet.GetComponent<Collider>().bounds.extents;
             Quaternion orientation = bullet.transform.rotation;
+            int layerMask = ((bullet.layer == 0) ? (1 << GameManager.invadersLayer) + (1 << GameManager.invadersBulletLayer) : (1 << GameManager.playerLayer) + (1 << GameManager.playerBulletLayer)) + (1 << GameManager.brickLayer); //bitwise operations 
 
-            //int layerMask = (bullet.layer == 0) ? (1 << 8) + (1 << 11) : (1 << 7) + (1 << 10); //bitwise operations 
-
-             int layerMask = (bullet.layer == 0) ? GameManager.invadersLayer + GameManager.invadersBulletLayer : GameManager.playerLayer + GameManager.playerBulletLayer;
-
-            //  int layerMask = (bullet.layer == 0) ? (1 << 2) + (1 << 5) : (1 << 1) + (1 << 4); //bitwise operations 
+            //    int layerMask = ((bullet.layer == 0) ? (1 << 2) + (1 << 5) : (1 << 1) + (1 << 4)) + (1 << 3); //bitwise operations 
             // (1 << 2) + (1 << 5) corresponds  to layers 2 and 5 (GameManager.invadersLayer and GameManager.invadersBulletLayer)
             //(1 << 1) + (1 << 4) corresponds  to layers 1 and 4 (GameManager.playerLayer and GameManager.playerBulletLayer )
+            //(1 << 3) corresponds layers 3 (GameManager.brickLayer)
 
             return Physics.OverlapBox(center, halfExtents, orientation, layerMask);
 
         }
+
+
 
         void HandleBulletCollision(GameObject bullet, GameObject target)
         {

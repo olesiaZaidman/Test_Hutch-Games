@@ -40,7 +40,7 @@ public class PlayerController : GameObjectManager
         playerLives[GameManager.Lives].SetActive(false);
         player.SetActive(true);
         player.transform.position = playerStartingPosition;
-        Debug.Log("GameManager.Lives = "+ GameManager.Lives);
+        Debug.Log("GameManager.Lives = " + GameManager.Lives);
 
     }
 
@@ -51,7 +51,7 @@ public class PlayerController : GameObjectManager
             UpdatePlayerMovement();
 
             if (Input.GetKeyDown(KeyCode.Space)) //(KeyCode.LeftShift) 
-   //Mashing Shift key for a QTE is not a good idea because of Windows Sticky Keys prompt
+                                                 //Mashing Shift key for a QTE is not a good idea because of Windows Sticky Keys prompt
 
             {
                 bulletsController.PlayerShootBullets();
@@ -78,8 +78,6 @@ public class PlayerController : GameObjectManager
 
     void CreatePlayerLives()
     {
-        // playerLives = new GameObject[GameManager.MaxPlayerLives];
-
         for (int i = 0; i < playerLives.Length; i++)
         {
             playerLives[i] = CreateGameObject(primitiveType);
@@ -101,7 +99,7 @@ public class PlayerController : GameObjectManager
 
     //}
 
-     void UpdatePlayerMovement()
+    void UpdatePlayerMovement()
     {
         movementInput = Input.GetAxis("Horizontal");
         float newPlayerX = CalculateNewPlayerX(movementInput, movementSpeed);
@@ -115,12 +113,12 @@ public class PlayerController : GameObjectManager
         MovePlayerToPosition(newPosition);
     }
 
-     float CalculateNewPlayerX(float movementInput, float movementSpeed)
+    float CalculateNewPlayerX(float movementInput, float movementSpeed)
     {
         return player.transform.position.x + (movementInput * movementSpeed * Time.deltaTime);
     }
 
-     void MovePlayerToPosition(Vector3 newPosition)
+    void MovePlayerToPosition(Vector3 newPosition)
     {
         player.transform.position = newPosition;
     }
